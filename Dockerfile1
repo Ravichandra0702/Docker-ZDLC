@@ -1,0 +1,9 @@
+FROM openjdk:8
+VOLUME /tmp
+ARG JAR_FILE=target/*.zip
+COPY ${JAR_FILE} zdlc.zip
+RUN unzip zdlc.zip
+WORKDIR /zdlc_v7.0_RC/bin
+RUN echo $PWD
+EXPOSE 8080
+ENTRYPOINT ["java", "-Dzdlc.log=../conf/ZDLC_log4j_conf.xml", "-Dzdlc.config=../conf/zdlc.config", "-Dehcache.disk.store.dir=../conf/ZDLC_Cache", "-jar", "../lib/com.cde.zdlc.ui-7.0_RC.jar" ]

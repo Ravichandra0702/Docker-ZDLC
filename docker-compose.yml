@@ -1,0 +1,26 @@
+version: "3.7"
+services:
+  hsql-service:
+    build: hsql
+    image: zdlc/hsql
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    ports:
+      - 9001:9001
+    networks:
+      - zdlc
+  zdlc-pack:
+    build: pack
+    image: zdlc/setup
+    links:
+      - hsql-service
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    ports:
+      - 8080:8080
+    networks:
+      - zdlc
+
+networks:
+  zdlc:
+    driver: "bridge"
